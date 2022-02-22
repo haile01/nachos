@@ -35,6 +35,9 @@
 #define SC_ThreadExit   14
 #define SC_ThreadJoin   15
 
+#define SC_ReadNum 30
+#define SC_PrintNum 31
+
 #define SC_Add		42
 
 #ifndef IN_ASM
