@@ -39,6 +39,9 @@
 #define SC_PrintNum 31
 
 #define SC_Add		42
+#define SC_ReadString 123
+#define SC_PrintString 124
+#define SC_CompString 125
 
 #ifndef IN_ASM
 
@@ -54,13 +57,28 @@
 
 /* Stop Nachos, and print out performance stats */
 void Halt();		
- 
- 
+
 /*
  * Add the two operants and return the result
  */ 
 
 int Add(int op1, int op2);
+
+
+/* Reads string */
+void ReadString(char* str, int length);
+
+/* Prints string */
+void PrintString(char* str);
+
+/* Compares string */
+int CompString(char* a, char* b);
+
+/* Reads number */
+void ReadNum();
+
+/* Prints number */
+void PrintNum();
 
 /* Address space control operations: Exit, Exec, Execv, and Join */
 
@@ -108,8 +126,8 @@ typedef int OpenFileId;
  * the console device.
  */
 
-#define ConsoleInput	0  
-#define ConsoleOutput	1  
+#define _ConsoleInput	0  
+#define _ConsoleOutput	1  
  
 /* Create a Nachos file, with name "name" */
 /* Note: Create does not open the file.   */

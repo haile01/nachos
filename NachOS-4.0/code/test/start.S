@@ -178,21 +178,45 @@ ThreadJoin:
 	j 	$31
 	.end ThreadJoin
 
-	.globl ReadNum
-	.ent    ReadNum
+	.globl	ReadNum
+	.ent		ReadNum
 ReadNum:
 	addiu $2, $0, SC_ReadNum
 	syscall
 	j 	$31
-	.end SC_ReadNum
+	.end ReadNum
 	
-	.globl PrintNum
-	.ent    PrintNum
+	.globl	PrintNum
+	.ent		PrintNum
 PrintNum:
 	addiu $2, $0, SC_PrintNum
 	syscall
 	j 	$31
-	.end SC_PrintNum
+	.end PrintNum
+
+	.globl	ReadString
+	.ent		ReadString
+ReadString:
+	addiu $2, $0, SC_ReadString
+	syscall
+	j 	$31
+	.end ReadString
+
+	.globl	PrintString
+	.ent		PrintString
+PrintString:
+	addiu $2, $0, SC_PrintString
+	syscall
+	j 	$31
+	.end PrintString
+
+	.globl	CompString
+	.ent		CompString
+CompString:
+	addiu $2, $0, SC_CompString
+	syscall
+	j 	$31
+	.end CompString
 
 /* dummy function to keep gcc happy */
         .globl  __main

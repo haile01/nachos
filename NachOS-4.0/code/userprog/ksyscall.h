@@ -14,21 +14,14 @@
 #include "kernel.h"
 #include "logic.h"
 
-
-
-void SysHalt()
-{
-  kernel->interrupt->Halt();
-}
-
-
-int SysAdd(int op1, int op2)
-{
-  return op1 + op2;
-}
+void SysHalt();
+int SysAdd(int op1, int op2);
 
 void SysReadNum();
-void SysWriteNum();
+void SysPrintNum();
+char* sysReadString(int& length);
+void sysPrintString(char* buffer, int length);
+int sysCompString(char* buffer1, char* buffer2, int length);
 
 
 

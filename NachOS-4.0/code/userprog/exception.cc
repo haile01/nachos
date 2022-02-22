@@ -48,6 +48,12 @@
 //	is in machine.h.
 //----------------------------------------------------------------------
 
+// CONSTANTS
+
+#define MAX_STRING_SIZE 256
+
+// Switching between userspace and kernel space
+
 void increase_program_counter() {
 	/* set previous programm counter (debugging only)*/
 	kernel->machine->WriteRegister(PrevPCReg, kernel->machine->ReadRegister(PCReg));
@@ -58,6 +64,131 @@ void increase_program_counter() {
 	/* set next programm counter for brach execution */
 	kernel->machine->WriteRegister(NextPCReg, kernel->machine->ReadRegister(PCReg) + 4);
 }
+
+int min (int a, int b) {
+	return a < b ? a : b;
+}
+
+void stringSystem2User(char* buffer, int strPtr) {
+	int length = min(MAX_STRING_SIZE, strlen(buffer));
+	for (int i = 0; i < length; i++) {
+		kernel->machine->WriteMem(strPtr + i, 1, buffer[i]);
+	}
+	kernel->machine->WriteMem(strPtr + length, 1, 0);
+}
+
+char* stringUser2System(int strPtr, int &length, int limit_length = -1) {
+	length = 0;
+	int tmp;
+	while (true) {
+		// if the string length reaches defined limit, stalph
+		if (limit_length != -1 && length >= limit_length)
+			break; 
+
+		// If null-byte is reached, stalph
+		kernel->machine->ReadMem(strPtr + length, 1, &tmp);
+		length++;
+		if (tmp == 0)
+			break;
+	}
+
+	// create new buffer
+	char* buffer = new char[length];
+	for (int i = 0; i < length; i++) {
+		kernel->machine->ReadMem(strPtr + i, 1, &tmp);
+		buffer[i] = (unsigned char)tmp;
+	}
+
+	return buffer;
+}
+
+// Handlers for syscalls
+
+/**
+ * handleReadString
+ */
+
+void handleReadString() {
+	int strPtr = kernel->machine->ReadRegister(4); // address of string
+	int strLen = kernel->machine->ReadRegister(5); // length of string
+
+	// doesn't allow too much memory being allocated
+	if (strLen > MAX_STRING_SIZE) {
+		DEBUG(dbgSys, "String length exceeds 256 characters");
+		SysHalt();
+		return;
+	}
+
+	char* buffer = sysReadString(strLen);
+	stringSystem2User(buffer, strPtr);
+	delete[] buffer;
+	increase_program_counter();
+
+	return;
+	ASSERTNOTREACHED();
+}
+
+/**
+ * handlePrintString
+ */
+
+void handlePrintString() {
+	int strPtr = kernel->machine->ReadRegister(4); // address of string
+
+	int strLen;
+	char* buffer = stringUser2System(strPtr, strLen);
+	
+	// doesn't allow too much memory being allocated
+	if (strLen > MAX_STRING_SIZE) {
+		DEBUG(dbgSys, "String length exceeds 256 characters");
+		SysHalt();
+		return;
+	}
+
+	sysPrintString(buffer, strLen);
+	delete[] buffer;
+	increase_program_counter();
+
+	return;
+	ASSERTNOTREACHED();
+}
+
+/**
+ * handleCompString
+ */
+
+void handleCompString() {
+	int strPtr1 = kernel->machine->ReadRegister(4); // address of string 1
+	int strPtr2 = kernel->machine->ReadRegister(5); // address of string 2
+	int strLen1, strLen2;
+
+	char* buffer1 = stringUser2System(strPtr1, strLen1);
+	char* buffer2 = stringUser2System(strPtr2, strLen2);
+
+	if (strLen1 != strLen2) {
+		kernel->machine->WriteRegister(2, 1); // not equal
+		increase_program_counter();
+		return;
+
+		ASSERTNOTREACHED();
+	}
+
+	int res = sysCompString(buffer1, buffer2, strLen1);
+
+	if (res == 0 || res == 1) { // Just in case
+		kernel->machine->WriteRegister(2, res);
+		increase_program_counter();
+		return;
+
+		ASSERTNOTREACHED();
+	}
+	else {
+		DEBUG(dbgSys, "Internal error");
+		ASSERTNOTREACHED();
+	}
+}
+
+// Exception handler
 
 void ExceptionHandler(ExceptionType which)
 {
@@ -111,6 +242,22 @@ void ExceptionHandler(ExceptionType which)
 
 
 			break;
+
+		case SC_ReadString:
+			return handleReadString();
+
+			break;
+
+		case SC_PrintString:
+			return handlePrintString();
+
+			break;
+
+		case SC_CompString:
+			return handleCompString();
+
+			break;
+
 		default:
 			cerr << "Unexpected system call " << type << "\n";
 			break;
