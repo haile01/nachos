@@ -7,3 +7,5 @@ nachos-gcc.diff
 usr/
 *.gz
 *.o
+.vscode/
+*.coff
