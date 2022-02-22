@@ -12,7 +12,7 @@
 #define __USERPROG_KSYSCALL_H__ 
 
 #include "kernel.h"
-
+#include "logic.h"
 
 
 
@@ -27,8 +27,8 @@ int SysAdd(int op1, int op2)
   return op1 + op2;
 }
 
-
-
+void SysReadNum();
+void SysWriteNum();
 
 
 

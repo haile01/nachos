@@ -9,8 +9,6 @@
 #define TAB ((char)9)
 #define SP ((char)32)
 
-void readString(){
-
-}
+void readString();
 
 #endif
