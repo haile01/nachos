@@ -75,7 +75,7 @@ void PrintString(char* str);
 int CompString(char* a, char* b);
 
 /* Reads number */
-void ReadNum();
+int ReadNum();
 
 /* Prints number */
 void PrintNum();

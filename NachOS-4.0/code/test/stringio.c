@@ -8,10 +8,19 @@
 int main()
 {
   char str[256];
+  int num;
   char stalph[] = "stalph";
   PrintString("Input something!\n");
   while(1) {
-    // TODO: read num too when it is implemented
+    PrintString("Num:");
+    PrintNum(10);
+    PrintString("\n");
+
+    num = ReadNum();
+    PrintString("\n");
+    PrintNum(num);
+    PrintString("\n");
+
     ReadString(str, 255);
     
     if (CompString(str, stalph) == 0) {

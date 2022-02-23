@@ -74,16 +74,17 @@ int sysCompString(char* buffer1, char* buffer2, int length) {
 int SysReadNum()
 {
     readInputNum();
-    
+    cerr << _numberBuffer << " dot \n";
     int len = strlen(_numberBuffer);
-
     if (len == 0)
         return 0;
-    
     if (strcmp(_numberBuffer, "-2147483648") ==0)
         return __INT32_MAX__;
+    
     bool isNeg = (_numberBuffer[0] == '-');
+
     bool isLead = 1;
+    
     int num = 0;
     for (int i = isNeg; i < len; i++) {
         char c = _numberBuffer[i];
@@ -99,6 +100,7 @@ int SysReadNum()
             num = num * 10 + (c - '0');
         }
     }
+   
     if (num == 0 && isLead){
         return 0;
     }
@@ -108,11 +110,14 @@ int SysReadNum()
         return 0;
     }
     int temp_num = num;
+    
     while (temp_num > 0){
         int digit = temp_num % 10;
         if (_numberBuffer[len-1] - '0' != digit)
-            DEBUG(dbgSys, "Invalid.32bit int expected")
+        {
+            DEBUG(dbgSys, "Invalid.32bit int expected");
             return 0;
+        }
             len--;
             temp_num = temp_num / 10;
     }
