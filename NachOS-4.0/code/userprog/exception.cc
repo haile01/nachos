@@ -188,6 +188,18 @@ void handleCompString() {
 	}
 }
 
+void handleReadNum(){
+	int result = SysReadNum();
+	kernel->machine->WriteRegister(2, result);
+	increase_program_counter();
+	return;
+}
+void handlePrintNum(){
+	int c = kernel->machine->ReadRegister(4);
+	SysPrintNum(c);
+	increase_program_counter();
+	return;
+}
 // Exception handler
 
 void ExceptionHandler(ExceptionType which)
@@ -235,12 +247,18 @@ void ExceptionHandler(ExceptionType which)
 
 			break;
 		case SC_ReadNum:
-			return SysReadNum();
 
+			return handleReadNum();
+
+
+			ASSERTNOTREACHED();
 			break;
 		case SC_PrintNum:
 
+			return handlePrintNum();
 
+			
+			ASSERTNOTREACHED();
 			break;
 
 		case SC_ReadString:

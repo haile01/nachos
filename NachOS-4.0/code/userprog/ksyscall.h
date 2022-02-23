@@ -11,17 +11,25 @@
 #ifndef __USERPROG_KSYSCALL_H__ 
 #define __USERPROG_KSYSCALL_H__ 
 
+#define LF ((char)10)
+#define CR ((char)13)
+#define TAB ((char)9)
+#define SP ((char)32)
+
+#define MAX_NUM_LENGTH 11
+
 #include "kernel.h"
-#include "logic.h"
+#include "synchconsole.h"
 
 void SysHalt();
 int SysAdd(int op1, int op2);
 
-void SysReadNum();
-void SysPrintNum();
 char* sysReadString(int& length);
 void sysPrintString(char* buffer, int length);
 int sysCompString(char* buffer1, char* buffer2, int length);
+int SysReadNum();
+void SysPrintNum(int num);
+
 
 
 
