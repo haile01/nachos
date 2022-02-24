@@ -210,6 +210,38 @@ void ExceptionHandler(ExceptionType which)
 
 	switch (which)
 	{
+	case NoException:
+		kernel->interrupt->setStatus(SystemMode);
+		break;
+	case PageFaultException:
+		cerr << "Exception PageFaultException\n";
+		SysHalt();
+		ASSERTNOTREACHED();
+	case ReadOnlyException:
+		cerr << "Exception ReadOnlyException\n";
+		SysHalt();
+		ASSERTNOTREACHED();
+	case BusErrorException:
+		cerr << "Exception BusErrorException\n";
+		SysHalt();
+		ASSERTNOTREACHED();
+	case AddressErrorException:
+		cerr << "Exception AddressErrorException\n";
+		SysHalt();
+		ASSERTNOTREACHED();
+	case OverflowException:
+		cerr << "Exception OverflowException\n";
+		SysHalt();
+		ASSERTNOTREACHED();
+	case IllegalInstrException:
+		cerr << "Exception IllegalInstrException\n";
+		SysHalt();
+		ASSERTNOTREACHED();
+	case NumExceptionTypes:
+		cerr << "Exception NumExceptionTypes\n";
+		SysHalt();
+		ASSERTNOTREACHED();
+
 	case SyscallException:
 		switch (type)
 		{

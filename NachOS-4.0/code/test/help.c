@@ -31,7 +31,7 @@ int main() {
   PrintString("   ../build.linux/nachos -x sort\n");
   PrintString("   First, input a number N as the size of the array\n");
   PrintString("   Then input N integers, can be separated with whitespace or end-line\n");
-  PrintString("   Finally, `asc` or `desc` for the order after sorting.\n\n");
+  PrintString("   Finally, A SINGLE LINE containing `asc` or `desc` for the order after sorting.\n\n");
 
   PrintString("   For example:\n");
   PrintString("   > 4\n");

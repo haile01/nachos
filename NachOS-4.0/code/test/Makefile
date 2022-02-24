@@ -181,6 +181,12 @@ ascii: ascii.o start.o
 	$(LD) $(LDFLAGS) start.o ascii.o -o ascii.coff
 	$(COFF2NOFF) ascii.coff ascii
 
+bubblesort.o: bubblesort.c
+	$(CC) $(CFLAGS) -c bubblesort.c
+bubblesort: bubblesort.o start.o
+	$(LD) $(LDFLAGS) start.o bubblesort.o -o bubblesort.coff
+	$(COFF2NOFF) bubblesort.coff bubblesort
+
 clean:
 	$(RM) -f *.o *.ii
 	$(RM) -f *.coff

@@ -7,11 +7,14 @@
 
 int main()
 {
-  int n = 0;
-  PrintString("Input a number [-2147483648, 2147483647]: ");
-  n = ReadNum();
+  int n[2];
+  PrintString("Input 2 numbers [-2147483648, 2147483647]: ");
+  n[0] = ReadNum();
+  n[1] = ReadNum();
   PrintString("You typed: ");
-  PrintNum(n);
+  PrintNum(n[0]);
+  PrintString(" and ");
+  PrintNum(n[1]);
   PrintString("\n");
   Halt();
 }

@@ -79,8 +79,7 @@ int SysReadNum()
     if (len == 0)
         return 0;
     if (strcmp(_numberBuffer, "-2147483648") == 0) {
-        // ignore the warning
-        return __INT32_MAX__ + 1;
+        return -__INT32_MAX__ - 1;
     }
     
     bool isNeg = (_numberBuffer[0] == '-');
@@ -130,6 +129,7 @@ int SysReadNum()
         return num;
     return 0;
 }
+
 void SysPrintNum(int num){
     if (num == 0) 
     {
