@@ -163,6 +163,12 @@ stringio: stringio.o start.o
 	$(LD) $(LDFLAGS) start.o stringio.o -o stringio.coff
 	$(COFF2NOFF) stringio.coff stringio
 
+numio.o: numio.c
+	$(CC) $(CFLAGS) -c numio.c
+numio: numio.o start.o
+	$(LD) $(LDFLAGS) start.o numio.o -o numio.coff
+	$(COFF2NOFF) numio.coff numio
+
 help.o: help.c
 	$(CC) $(CFLAGS) -c help.c
 help: help.o start.o

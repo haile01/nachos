@@ -13,24 +13,22 @@ void readInputNum() {
         DEBUG(dbgSys, "Invalid EOF ");
         return;
     }
-    if (isSpacing(c))
+    while (isSpacing(c))
     {
-        DEBUG(dbgSys, "Invaild spacing");
-        return;
+        // This would allow inputs like "   123"
+        c = kernel -> synchConsoleIn -> GetChar();
     }
     
     int n = 0;
 
     while (!(isSpacing(c) || c == EOF)){
-        _numberBuffer[n++] = c;
-        if (n > MAX_NUM_LENGTH) {
-            while(!isSpacing(c))
-               c = kernel -> synchConsoleIn -> GetChar();
-            return; 
+        if (n <= MAX_NUM_LENGTH) {
+            _numberBuffer[n++] = c;
         }
         c = kernel -> synchConsoleIn -> GetChar();
     }
 }
+
 void SysHalt()
 {
   kernel->interrupt->Halt();
@@ -80,8 +78,10 @@ int SysReadNum()
     int len = strlen(_numberBuffer);
     if (len == 0)
         return 0;
-    if (strcmp(_numberBuffer, "-2147483648") ==0)
-        return __INT32_MAX__;
+    if (strcmp(_numberBuffer, "-2147483648") == 0) {
+        // ignore the warning
+        return __INT32_MAX__ + 1;
+    }
     
     bool isNeg = (_numberBuffer[0] == '-');
 
