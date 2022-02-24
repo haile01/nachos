@@ -29,6 +29,9 @@ void sysPrintString(char* buffer, int length);
 int sysCompString(char* buffer1, char* buffer2, int length);
 int SysReadNum();
 void SysPrintNum(int num);
+char SysReadChar();
+void SysPrintChar(char result);
+int SysRandomNum();
 
 
 

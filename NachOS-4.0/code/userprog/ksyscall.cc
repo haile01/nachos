@@ -152,3 +152,15 @@ void SysPrintNum(int num){
         kernel->synchConsoleOut->PutChar(_numberBuffer[i]+'0');
     }
 }
+char SysReadChar(){
+    char result = kernel->synchConsoleIn->GetChar(); 
+    return result;
+}
+
+void SysPrintChar(char result){
+    kernel->synchConsoleOut->PutChar(result);   
+}
+
+int SysRandomNum(){
+    return random();
+}

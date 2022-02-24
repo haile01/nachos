@@ -37,7 +37,9 @@
 
 #define SC_ReadNum 30
 #define SC_PrintNum 31
-
+#define SC_ReadChar 69
+#define SC_PrintChar 70
+#define SC_RandomNum 71
 #define SC_Add		42
 #define SC_ReadString 123
 #define SC_PrintString 124
@@ -79,6 +81,15 @@ int ReadNum();
 
 /* Prints number */
 void PrintNum();
+
+/* Reads char */
+char ReadChar();
+
+/* Prints char */
+void PrintChar();
+
+/* Randomizes a number */
+int RandomNum();
 
 /* Address space control operations: Exit, Exec, Execv, and Join */
 

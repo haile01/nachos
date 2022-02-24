@@ -200,6 +200,27 @@ void handlePrintNum(){
 	increase_program_counter();
 	return;
 }
+
+void handleReadChar(){
+	char result = SysReadChar();
+	kernel->machine->WriteRegister(2, (int)result);
+	increase_program_counter();
+	return;
+}
+
+void handlePrintChar(){
+	char result = (char)kernel->machine->ReadRegister(4);
+	SysPrintChar(result);
+	increase_program_counter();
+	return;
+}
+
+void handleRandomNum(){
+	int result = SysRandomNum();
+	kernel->machine->WriteRegister(2, result);
+	increase_program_counter();
+	return;
+}
 // Exception handler
 
 void ExceptionHandler(ExceptionType which)
@@ -274,6 +295,21 @@ void ExceptionHandler(ExceptionType which)
 		case SC_CompString:
 			return handleCompString();
 
+			break;
+
+		case SC_ReadChar:
+			return handleReadChar();
+			ASSERTNOTREACHED();
+			break;
+
+		case SC_PrintChar:
+			return handlePrintChar();
+			ASSERTNOTREACHED();
+			break;
+
+		case SC_RandomNum:
+			return handleRandomNum();
+			ASSERTNOTREACHED();
 			break;
 
 		default:
