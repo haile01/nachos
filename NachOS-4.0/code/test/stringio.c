@@ -12,12 +12,8 @@ int main()
   char stalph[] = "stalph";
   PrintString("Input something!\n");
   while(1) {
-    PrintString("Num:");
-    PrintNum(10);
-    PrintString("\n");
-
+    PrintString("read Num:\n");
     num = ReadNum();
-    PrintString("\n");
     PrintNum(num);
     PrintString("\n");
 
