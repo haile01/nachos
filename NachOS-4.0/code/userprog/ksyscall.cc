@@ -1,6 +1,6 @@
 #include "ksyscall.h" 
 
-char _numberBuffer[MAX_NUM_LENGTH+2];
+char _numberBuffer[MAX_NUM_LENGTH + 2];
 
 bool isSpacing(char c){
     return (c == LF || c == SP || c == CR || c == TAB);
@@ -10,12 +10,13 @@ void readInputNum() {
     memset(_numberBuffer, 0, sizeof(_numberBuffer));
     char c = kernel -> synchConsoleIn -> GetChar();
     if  (c==EOF){
-        DEBUG(dbgSys, "Invalid EOF ")
+        DEBUG(dbgSys, "Invalid EOF ");
         return;
     }
     if (isSpacing(c))
     {
-        DEBUG(dbgSys, "Invaild spacing")
+        DEBUG(dbgSys, "Invaild spacing");
+        return;
     }
     
     int n = 0;
@@ -23,8 +24,9 @@ void readInputNum() {
     while (!(isSpacing(c) || c == EOF)){
         _numberBuffer[n++] = c;
         if (n > MAX_NUM_LENGTH) {
-            DEBUG(dbgSys, "Invalid value")
-            return;
+            while(!isSpacing(c))
+               c = kernel -> synchConsoleIn -> GetChar();
+            return; 
         }
         c = kernel -> synchConsoleIn -> GetChar();
     }
@@ -74,7 +76,7 @@ int sysCompString(char* buffer1, char* buffer2, int length) {
 int SysReadNum()
 {
     readInputNum();
-    cerr << _numberBuffer << " dot \n";
+
     int len = strlen(_numberBuffer);
     if (len == 0)
         return 0;
@@ -110,7 +112,7 @@ int SysReadNum()
         return 0;
     }
     int temp_num = num;
-    
+
     while (temp_num > 0){
         int digit = temp_num % 10;
         if (_numberBuffer[len-1] - '0' != digit)
@@ -123,6 +125,7 @@ int SysReadNum()
     }
     if(isNeg)
         num = -num;
+    len = len - isNeg;
     if(len == 0)
         return num;
     return 0;
