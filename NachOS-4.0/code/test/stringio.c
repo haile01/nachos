@@ -16,6 +16,7 @@ int main()
   while(1) {
     PrintString("Reading a number:\n");
     num = ReadNum();
+    PrintString("Printing the number you typed:\n");
     PrintNum(num);
     PrintString("\n\n");
 
