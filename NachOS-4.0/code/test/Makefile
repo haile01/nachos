@@ -163,6 +163,30 @@ stringio: stringio.o start.o
 	$(LD) $(LDFLAGS) start.o stringio.o -o stringio.coff
 	$(COFF2NOFF) stringio.coff stringio
 
+numio.o: numio.c
+	$(CC) $(CFLAGS) -c numio.c
+numio: numio.o start.o
+	$(LD) $(LDFLAGS) start.o numio.o -o numio.coff
+	$(COFF2NOFF) numio.coff numio
+
+help.o: help.c
+	$(CC) $(CFLAGS) -c help.c
+help: help.o start.o
+	$(LD) $(LDFLAGS) start.o help.o -o help.coff
+	$(COFF2NOFF) help.coff help
+
+ascii.o: ascii.c
+	$(CC) $(CFLAGS) -c ascii.c
+ascii: ascii.o start.o
+	$(LD) $(LDFLAGS) start.o ascii.o -o ascii.coff
+	$(COFF2NOFF) ascii.coff ascii
+
+bubblesort.o: bubblesort.c
+	$(CC) $(CFLAGS) -c bubblesort.c
+bubblesort: bubblesort.o start.o
+	$(LD) $(LDFLAGS) start.o bubblesort.o -o bubblesort.coff
+	$(COFF2NOFF) bubblesort.coff bubblesort
+
 clean:
 	$(RM) -f *.o *.ii
 	$(RM) -f *.coff

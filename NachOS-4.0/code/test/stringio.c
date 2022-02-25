@@ -1,4 +1,4 @@
-/* string.c
+/* stringio.c
  * Keeps reading and printing out what is read in the console
  * stops when user inputs "stalph"
  */
@@ -14,7 +14,7 @@ int main()
   char stalph[] = "stalph";
   PrintString("Input something!\n");
   while(1) {
-    PrintString("read Num:\n");
+    PrintString("Reading a number:\n");
     num = ReadNum();
     PrintNum(num);
     PrintString("\n\n");
@@ -40,6 +40,11 @@ int main()
     PrintString("\n\n");
 
     PrintString("Reading a string:\n");
+    ReadString(str, 255);
+    
+    if (CompString(str, stalph) == 0) {
+      break;
+    }
     PrintString("You typed: \"");
     PrintString(str);
     PrintString("\"\n\n"); // make it more user-friendly

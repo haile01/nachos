@@ -1,6 +1,6 @@
 #include "ksyscall.h" 
 
-char _numberBuffer[MAX_NUM_LENGTH+2];
+char _numberBuffer[MAX_NUM_LENGTH + 2];
 
 bool isSpacing(char c){
     return (c == LF || c == SP || c == CR || c == TAB);
@@ -10,25 +10,25 @@ void readInputNum() {
     memset(_numberBuffer, 0, sizeof(_numberBuffer));
     char c = kernel -> synchConsoleIn -> GetChar();
     if  (c==EOF){
-        DEBUG(dbgSys, "Invalid EOF ")
+        DEBUG(dbgSys, "Invalid EOF ");
         return;
     }
-    if (isSpacing(c))
+    while (isSpacing(c))
     {
-        DEBUG(dbgSys, "Invaild spacing")
+        // This would allow inputs like "   123"
+        c = kernel -> synchConsoleIn -> GetChar();
     }
     
     int n = 0;
 
     while (!(isSpacing(c) || c == EOF)){
-        _numberBuffer[n++] = c;
-        if (n > MAX_NUM_LENGTH) {
-            DEBUG(dbgSys, "Invalid value")
-            return;
+        if (n <= MAX_NUM_LENGTH) {
+            _numberBuffer[n++] = c;
         }
         c = kernel -> synchConsoleIn -> GetChar();
     }
 }
+
 void SysHalt()
 {
   kernel->interrupt->Halt();
@@ -74,12 +74,13 @@ int sysCompString(char* buffer1, char* buffer2, int length) {
 int SysReadNum()
 {
     readInputNum();
-    cerr << _numberBuffer << " dot \n";
+
     int len = strlen(_numberBuffer);
     if (len == 0)
         return 0;
-    if (strcmp(_numberBuffer, "-2147483648") ==0)
-        return __INT32_MAX__;
+    if (strcmp(_numberBuffer, "-2147483648") == 0) {
+        return -__INT32_MAX__ - 1;
+    }
     
     bool isNeg = (_numberBuffer[0] == '-');
 
@@ -110,7 +111,7 @@ int SysReadNum()
         return 0;
     }
     int temp_num = num;
-    
+
     while (temp_num > 0){
         int digit = temp_num % 10;
         if (_numberBuffer[len-1] - '0' != digit)
@@ -123,10 +124,12 @@ int SysReadNum()
     }
     if(isNeg)
         num = -num;
+    len = len - isNeg;
     if(len == 0)
         return num;
     return 0;
 }
+
 void SysPrintNum(int num){
     if (num == 0) 
     {
