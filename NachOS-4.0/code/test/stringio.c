@@ -40,7 +40,6 @@ int main()
     PrintString("\n\n");
 
     PrintString("Reading a string:\n");
-    }
     PrintString("You typed: \"");
     PrintString(str);
     PrintString("\"\n\n"); // make it more user-friendly
