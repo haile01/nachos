@@ -42,4 +42,6 @@ int main() {
   PrintString("   > 23 42 69 420\n\n");
 
   PrintString("========\n");
+  
+  Halt();
 }

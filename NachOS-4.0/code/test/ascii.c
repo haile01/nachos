@@ -14,4 +14,5 @@ int main () {
     PrintNum((int)c);
     PrintString("\n");
   }
+  Halt();
 }
