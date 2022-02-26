@@ -86,11 +86,15 @@ int SysReadNum()
 
     bool isLead = 1;
     
+    int zeros = 0;
+
     int num = 0;
     for (int i = isNeg; i < len; i++) {
         char c = _numberBuffer[i];
-        if (c == '0' && isLead)
+        if (c == '0' && isLead){
+            zeros++;
             continue;
+        }
         else
         {
             isLead = 0;
@@ -124,7 +128,7 @@ int SysReadNum()
     }
     if(isNeg)
         num = -num;
-    len = len - isNeg;
+    len = len - isNeg - zeros;
     if(len == 0)
         return num;
     return 0;
