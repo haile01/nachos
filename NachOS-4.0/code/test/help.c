@@ -28,7 +28,7 @@ int main() {
   PrintString("3. sort\n");
   PrintString("   Sorts and prints out array of integers ascending or descending\n");
   PrintString("   Run the program by calling\n");
-  PrintString("   ../build.linux/nachos -x sort\n");
+  PrintString("   ../build.linux/nachos -x bubblesort\n");
   PrintString("   First, input a number N as the size of the array\n");
   PrintString("   Then input N integers, can be separated with whitespace or end-line\n");
   PrintString("   Finally, A SINGLE LINE containing `asc` or `desc` for the order after sorting.\n\n");
