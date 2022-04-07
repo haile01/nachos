@@ -34,7 +34,9 @@ void SysPrintChar(char result);
 int SysRandomNum();
 int SysOpen(char* fileName);
 int SysClose(int id);
-
+int SysReadFile(char* buffer, int size, int openFileId);
+int SysWriteFile(char* buffer, int size, int openFileId);
+int SysSeekFile(int pos, int openFileId);
 
 
 #endif /* ! __USERPROG_KSYSCALL_H__ */

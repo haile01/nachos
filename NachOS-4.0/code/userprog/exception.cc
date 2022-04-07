@@ -174,6 +174,8 @@ void handleCompString() {
 	}
 
 	int res = sysCompString(buffer1, buffer2, strLen1);
+	delete[] buffer1;
+	delete[] buffer2;
 
 	if (res == 0 || res == 1) { // Just in case
 		kernel->machine->WriteRegister(2, res);
@@ -235,6 +237,45 @@ void handleClose(){
 	kernel->machine->WriteRegister(2, SysClose(id));
 	increase_program_counter();
 }
+
+void handleRead() {
+	int stringPtr = kernel->machine->ReadRegister(4);
+	int size = kernel->machine->ReadRegister(5);
+	int openFileId = kernel->machine->ReadRegister(6);
+
+	char* buffer = new char[size];
+	int readSize = SysReadFile(buffer, size, openFileId);
+	stringSystem2User(buffer, stringPtr);
+	delete[] buffer;
+
+	kernel->machine->WriteRegister(2, readSize);
+	increase_program_counter();
+	return;
+}
+
+void handleWrite() {
+	int stringPtr = kernel->machine->ReadRegister(4);
+	int size = kernel->machine->ReadRegister(5);
+	int openFileId = kernel->machine->ReadRegister(6);
+
+	char* buffer = stringUser2System(stringPtr, size, size);
+	int writeSize = SysWriteFile(buffer, size, openFileId);
+	delete[] buffer;
+
+	kernel->machine->WriteRegister(2, writeSize);
+	increase_program_counter();
+	return;
+}
+
+void handleSeek() {
+	int seekPos = kernel->machine->ReadRegister(4);
+	int openFileId = kernel->machine->ReadRegister(5);
+
+	kernel->machine->WriteRegister(2, SysSeekFile(seekPos, openFileId));
+	increase_program_counter();
+	return;
+}
+
 // Exception handler
 
 void ExceptionHandler(ExceptionType which)
@@ -324,6 +365,23 @@ void ExceptionHandler(ExceptionType which)
 			return handleClose();
 			ASSERTNOTREACHED();
 			break;
+
+		case SC_Read:
+			return handleRead();
+			ASSERTNOTREACHED();
+			break;
+
+		case SC_Write:
+			return handleWrite();
+			ASSERTNOTREACHED();
+			break;
+
+		case SC_Seek:
+			return handleSeek();
+			ASSERTNOTREACHED();
+			break;
+
+
 		case SC_ReadNum:
 
 			return handleReadNum();

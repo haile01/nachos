@@ -177,3 +177,15 @@ int SysOpen(char* fileName){
 int SysClose(int id){
     return kernel->fileSystem->Close(id);
 }
+
+int SysReadFile(char* buffer, int size, int openFileId) {
+  return kernel->fileSystem->Read(buffer, size, openFileId);
+}
+
+int SysWriteFile(char* buffer, int size, int openFileId) {
+  return kernel->fileSystem->Write(buffer, size, openFileId);
+}
+
+int SysSeekFile(int pos, int openFileId) {
+  return kernel->fileSystem->Seek(pos, openFileId);
+}

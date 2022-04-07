@@ -67,11 +67,15 @@ public:
 		return Tell(file);
 	}
 	
-	int Seek(int position);
+	int Seek(int position){
+		seekPosition = position;
+		return seekPosition;
+	}
 
 private:
 	int file;
 	int currentOffset;
+	int seekPosition;
 };
 
 #else // FILESYS
