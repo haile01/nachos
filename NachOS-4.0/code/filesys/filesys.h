@@ -61,7 +61,7 @@ public:
 		return TRUE;
 	}
 
-	int Open(char *name)
+	int OpenFileID(char *name)
 	{
 		int fileDescriptor = OpenForReadWrite(name, FALSE);
 
@@ -73,6 +73,14 @@ public:
 				return i;
 				}
 		return -1;
+	}
+	OpenFile *Open(char *name)
+	{
+		int fileDescriptor = OpenForReadWrite(name, FALSE);
+
+		if (fileDescriptor == -1)
+			return NULL;
+		return new OpenFile(fileDescriptor);
 	}
 	int Close(int id){
 		if(fileTable[id]!=NULL){

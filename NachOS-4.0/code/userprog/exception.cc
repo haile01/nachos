@@ -232,7 +232,7 @@ void handleOpen(){
 }
 void handleClose(){
 	int id = kernel->machine->ReadRegister(4);
-	kernel->machine->ReadRegister(2, SysClose(id));
+	kernel->machine->WriteRegister(2, SysClose(id));
 	increase_program_counter();
 }
 // Exception handler
