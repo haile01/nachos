@@ -61,15 +61,27 @@ public:
 		return TRUE;
 	}
 
-	OpenFile *Open(char *name)
+	int Open(char *name)
 	{
 		int fileDescriptor = OpenForReadWrite(name, FALSE);
 
 		if (fileDescriptor == -1)
 			return NULL;
-		return new OpenFile(fileDescriptor);
+		for (int i = 2;i<MAX_OPEN_FILES; i++)
+			if(fileTable[i]==NULL){
+			 	fileTable[i]= new OpenFile(fileDescriptor);
+				return i;
+				}
+		return -1;
 	}
-	
+	int Close(int id){
+		if(fileTable[id]!=NULL){
+			delete fileTable[id];
+			fileTable[id] = NULL;
+			return 1;
+		}
+		return -1;
+	}
 	int Read(char *buffer, int size, int fileId) {
 		if (fileId < 0 || fileId >= MAX_OPEN_FILES || fileTable[fileId] == NULL) {
 			return -1;

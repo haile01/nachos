@@ -221,6 +221,20 @@ void handleRandomNum(){
 	increase_program_counter();
 	return;
 }
+void handleOpen(){
+	int virAddr = kernel->machine->ReadRegister(4);
+	int length;
+	char* fileName = stringUser2System(virAddr,length);
+	kernel->machine->WriteRegister(2,SysOpen(fileName));
+	increase_program_counter();
+	return;
+
+}
+void handleClose(){
+	int id = kernel->machine->ReadRegister(4);
+	kernel->machine->ReadRegister(2, SysClose(id));
+	increase_program_counter();
+}
 // Exception handler
 
 void ExceptionHandler(ExceptionType which)
@@ -298,6 +312,17 @@ void ExceptionHandler(ExceptionType which)
 
 			
 
+			break;
+		case SC_Open:
+			
+			
+			return handleOpen();
+			ASSERTNOTREACHED();
+
+			break;
+		case SC_Close:
+			return handleClose();
+			ASSERTNOTREACHED();
 			break;
 		case SC_ReadNum:
 

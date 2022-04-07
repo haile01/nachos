@@ -320,7 +320,11 @@ OpenForWrite(char *name)
 //
 //	"name" -- file name
 //----------------------------------------------------------------------
-
+int OpenForRead(char*name, bool crashOnError){
+    int fd = open(name, O_RDONLY, 0);
+    ASSERT(!crashOnError ||fd>=0);
+    return fd;
+}
 int
 OpenForReadWrite(char *name, bool crashOnError)
 {
