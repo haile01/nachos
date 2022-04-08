@@ -44,11 +44,11 @@ private:
 	OpenFile **fileTable;
 public:
 	FileSystem() {
-		fileTable = new OpenFile*[10];
+		fileTable = new OpenFile*[MAX_OPEN_FILES];
 	}
 
 	~FileSystem() {
-		delete fileTable;
+		delete[] fileTable;
 	}
 
 	bool Create(char *name)
@@ -56,9 +56,9 @@ public:
 		int fileDescriptor = OpenForWrite(name);
 
 		if (fileDescriptor == -1)
-			return FALSE;
+			return -1;
 		Close(fileDescriptor);
-		return TRUE;
+		return 0;
 	}
 
 	int OpenFileID(char *name)
@@ -68,10 +68,10 @@ public:
 		if (fileDescriptor == -1)
 			return NULL;
 		for (int i = 2;i<MAX_OPEN_FILES; i++)
-			if(fileTable[i]==NULL){
-			 	fileTable[i]= new OpenFile(fileDescriptor);
+			if(fileTable[i]==NULL) {
+			 	fileTable[i]= new OpenFile(fileDescriptor, name);
 				return i;
-				}
+			}
 		return -1;
 	}
 	OpenFile *Open(char *name)
@@ -114,7 +114,19 @@ public:
 		return fileTable[fileId]->Seek(pos);
 	}
 
-	bool Remove(char *name) { return Unlink(name) == 0; }
+	int Remove(char *name) {
+		for (int i = 0; i < MAX_OPEN_FILES; i++) {
+			if (fileTable[i] == NULL || fileTable[i]->fileName == NULL) {
+				continue;
+			}
+			if (strcmp(name, fileTable[i]->fileName) == 0) {
+				return -1;
+			}
+		}
+		
+		int res = Unlink(name);
+		return res == 0 ? 0 : -1;
+	}
 };
 
 #endif // FS_H

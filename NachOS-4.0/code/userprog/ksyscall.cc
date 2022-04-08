@@ -171,9 +171,19 @@ void SysPrintChar(char result){
 int SysRandomNum(){
     return random();
 }
+
+int SysCreate(char* fileName) {
+  return kernel->fileSystem->Create(fileName);
+}
+
+int SysRemove(char* fileName) {
+  return kernel->fileSystem->Remove(fileName);
+}
+
 int SysOpen(char* fileName){
     return kernel->fileSystem->OpenFileID(fileName);
 }
+
 int SysClose(int id){
     return kernel->fileSystem->Close(id);
 }

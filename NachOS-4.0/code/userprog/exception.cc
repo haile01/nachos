@@ -276,6 +276,28 @@ void handleSeek() {
 	return;
 }
 
+void handleCreate() {
+	int fileNamePtr = kernel->machine->ReadRegister(4);
+	int size;
+	char* buffer = stringUser2System(fileNamePtr, size);
+	
+	kernel->machine->WriteRegister(2, SysCreate(buffer));
+	delete[] buffer;
+	increase_program_counter();
+	return;
+}
+
+void handleRemove() {
+	int fileNamePtr = kernel->machine->ReadRegister(4);
+	int size;
+	char* buffer = stringUser2System(fileNamePtr, size);
+
+	kernel->machine->WriteRegister(2, SysRemove(buffer));
+	delete[] buffer;
+	increase_program_counter();
+	return;
+}
+
 // Exception handler
 
 void ExceptionHandler(ExceptionType which)
@@ -350,9 +372,13 @@ void ExceptionHandler(ExceptionType which)
 			break;
 
 		case SC_Create:
+			return handleCreate();
+			ASSERTNOTREACHED();
+			break;
 
-			
-
+		case SC_Remove:
+			return handleRemove();
+			ASSERTNOTREACHED();
 			break;
 		case SC_Open:
 			

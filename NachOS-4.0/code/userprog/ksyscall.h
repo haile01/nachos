@@ -32,6 +32,8 @@ void SysPrintNum(int num);
 char SysReadChar();
 void SysPrintChar(char result);
 int SysRandomNum();
+int SysCreate(char* fileName);
+int SysRemove(char* fileName);
 int SysOpen(char* fileName);
 int SysClose(int id);
 int SysReadFile(char* buffer, int size, int openFileId);

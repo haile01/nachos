@@ -24,18 +24,33 @@
 #include "utility.h"
 #include "sysdep.h"
 
-#ifdef FILESYS_STUB // Temporarily implement calls to
-										// Nachos file system as calls to UNIX!
-										// See definitions listed under #else
 class OpenFile
 {
 public:
-	OpenFile(int f)
+	char* fileName;
+
+	OpenFile(int f) // open the file
 	{
 		file = f;
 		currentOffset = 0;
-	}														 // open the file
-	~OpenFile() { Close(file); } // close the file
+		fileName = NULL;
+	}
+	OpenFile(int f, char* _fileName) // same, but with steroids
+	{
+		file = f;
+		currentOffset = 0;
+		int len = strlen(_fileName);
+		fileName = new char[len + 1];
+		strncpy(fileName, _fileName, len + 1);
+	}
+	~OpenFile() // close the file
+	{
+		Close(file);
+		if (fileName != NULL) {
+			delete[] fileName;
+			fileName = NULL;
+		}
+	}
 
 	int ReadAt(char *into, int numBytes, int position)
 	{
@@ -77,41 +92,5 @@ private:
 	int currentOffset;
 	int seekPosition;
 };
-
-#else // FILESYS
-class FileHeader;
-
-class OpenFile
-{
-public:
-	OpenFile(int sector); // Open a file whose header is located
-												// at "sector" on the disk
-	~OpenFile();					// Close the file
-
-	int Seek(int position); // Set the position from which to
-													 // start reading/writing -- UNIX lseek
-
-	int Read(char *into, int numBytes); // Read/write bytes from the file,
-																			// starting at the implicit position.
-																			// Return the # actually read/written,
-																			// and increment position in file.
-	int Write(char *from, int numBytes);
-
-	int ReadAt(char *into, int numBytes, int position);
-	// Read/write bytes from the file,
-	// bypassing the implicit position.
-	int WriteAt(char *from, int numBytes, int position);
-
-	int Length(); // Return the number of bytes in the
-								// file (this interface is simpler
-								// than the UNIX idiom -- lseek to
-								// end of file, tell, lseek back
-
-private:
-	FileHeader *hdr;	// Header for this file
-	int seekPosition; // Current position within the file
-};
-
-#endif // FILESYS
 
 #endif // OPENFILE_H
