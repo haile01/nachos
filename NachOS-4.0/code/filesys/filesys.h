@@ -37,7 +37,7 @@
 #include "sysdep.h"
 #include "openfile.h"
 
-const int MAX_OPEN_FILES = 10;
+const int MAX_OPEN_FILES = 256;
 class FileSystem
 {
 private:
@@ -103,7 +103,7 @@ public:
 			return -1;
 		}
 
-		return fileTable[fileId]->Write(buffer, fileId);
+		return fileTable[fileId]->Write(buffer, size);
 	}
 
 	int Seek(int pos, int fileId) {

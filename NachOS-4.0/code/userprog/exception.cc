@@ -258,8 +258,8 @@ void handleWrite() {
 	int size = kernel->machine->ReadRegister(5);
 	int openFileId = kernel->machine->ReadRegister(6);
 
-	char* buffer = stringUser2System(stringPtr, size, size);
-	int writeSize = SysWriteFile(buffer, size, openFileId);
+	char* buffer = stringUser2System(stringPtr, size, size + 1);
+	int writeSize = SysWriteFile(buffer, size - 1, openFileId);
 	delete[] buffer;
 
 	kernel->machine->WriteRegister(2, writeSize);
@@ -280,8 +280,13 @@ void handleCreate() {
 	int fileNamePtr = kernel->machine->ReadRegister(4);
 	int size;
 	char* buffer = stringUser2System(fileNamePtr, size);
+	if (size > 256) {
+		kernel->machine->WriteRegister(2, -1);
+	}
+	else {
+		kernel->machine->WriteRegister(2, SysCreate(buffer));
+	}
 	
-	kernel->machine->WriteRegister(2, SysCreate(buffer));
 	delete[] buffer;
 	increase_program_counter();
 	return;
@@ -291,8 +296,13 @@ void handleRemove() {
 	int fileNamePtr = kernel->machine->ReadRegister(4);
 	int size;
 	char* buffer = stringUser2System(fileNamePtr, size);
+	if (size > 256) {
+		kernel->machine->WriteRegister(2, -1);
+	}
+	else {
+		kernel->machine->WriteRegister(2, SysRemove(buffer));
+	}
 
-	kernel->machine->WriteRegister(2, SysRemove(buffer));
 	delete[] buffer;
 	increase_program_counter();
 	return;
