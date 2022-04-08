@@ -53,7 +53,7 @@ main()
   Close(openSourceId);
   Close(openDestId);
 
-  PrintString("Done copying, hutting down...\n");
+  PrintString("Done copying, shutting down...\n");
 
   Halt();
   return;

@@ -64,9 +64,9 @@ public:
 	int OpenFileID(char *name)
 	{
 		int fileDescriptor = OpenForReadWrite(name, FALSE);
-
 		if (fileDescriptor == -1)
-			return NULL;
+			return -1;
+
 		for (int i = 2;i<MAX_OPEN_FILES; i++)
 			if(fileTable[i]==NULL) {
 			 	fileTable[i]= new OpenFile(fileDescriptor, name);
