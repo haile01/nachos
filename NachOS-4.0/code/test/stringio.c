@@ -12,46 +12,76 @@ int main()
   char chaCha;
   char x;
   char stalph[] = "stalph";
-  PrintString("Input something!\n");
-  while(1) {
-    PrintString("Reading a number:\n");
-    num = ReadNum();
-    PrintString("Printing the number you typed:\n");
-    PrintNum(num);
-    PrintString("\n\n");
+  char *tmp;
 
-    PrintString("Reading a char:\n");
+  tmp = "Input something!\n";
+  PrintString(tmp);
+
+  while(1) {
+    tmp = "Reading a number:\n";
+    PrintString(tmp);
+
+    num = ReadNum();
+
+    tmp = "Printing the number you typed:\n";
+    PrintString(tmp);
+
+    PrintNum(num);
+
+    tmp = "\n\n";
+    PrintString(tmp);
+
+    tmp = "Reading a char:\n";
+    PrintString(tmp);
+    
     chaCha = ReadChar();
     x = ReadChar();
     if (x != '\n'){
-      PrintString("You typed more than 1 char! Ignoring the latter ones.\n");
+      tmp = "You typed more than 1 char! Ignoring the latter ones.\n";
+      PrintString(tmp);
       do {
         x = ReadChar();
       }
       while (x != '\n');
     }
     
-    PrintString("Printing the char you typed:\n");
+    tmp = "Printing the char you typed:\n";
+    PrintString(tmp);
+    
     PrintChar(chaCha);
-    PrintString("\n\n");
+    
+    tmp = "\n\n";
+    PrintString(tmp);
 
     num = RandomNum();
-    PrintString("Here's a random number for you:\n");
+    
+    tmp = "Here's a random number for you:\n";
+    PrintString(tmp);
+    
     PrintNum(num);
-    PrintString("\n\n");
+    
+    tmp = "\n\n";
+    PrintString(tmp);
 
-    PrintString("Reading a string:\n");
+    tmp = "Reading a string:\n";
+    PrintString(tmp);
+
     ReadString(str, 255);
     
     if (CompString(str, stalph) == 0) {
       break;
     }
-    PrintString("You typed: \"");
+    tmp = "You typed: \"";
+    PrintString(tmp);
+
     PrintString(str);
-    PrintString("\"\n\n"); // make it more user-friendly
+    
+    tmp = "\"\n\n";
+    PrintString(tmp); // make it more user-friendly
   }
 
-  PrintString("Okay, as you wish, stopping...\n");
+  tmp = "Okay, as you wish, stopping...\n";
+  PrintString(tmp);
 
   Halt();
 }

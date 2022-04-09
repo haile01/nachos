@@ -7,12 +7,14 @@
 
 int main () {
   char c;
+  char *tmp;
   
   for (c = ' '; c < '~'; c++) {
     PrintChar(c); //no need to wait for Phu-chan anymore
-    PrintString(" - ");
+    tmp = " - ";
+    PrintString(tmp);
     PrintNum((int)c);
-    PrintString("\n");
+    PrintChar('\n');
   }
   Halt();
 }

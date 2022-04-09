@@ -27,12 +27,19 @@ main()
 {
   char sourceFileName1[256], sourceFileName2[256], destFileName[256];
   int openSourceId1, openSourceId2, openDestId;
+  int size = 0;
+  char *tmp;
 
-  PrintString("Input 1st source file name\n");
+  tmp = "Input 1st source file name\n";
+  PrintString(tmp);
   ReadString(sourceFileName1, 255);
-  PrintString("Input 2nd source file name\n");
+
+  tmp = "Input 2nd source file name\n";
+  PrintString(tmp);
   ReadString(sourceFileName2, 255);
-  PrintString("Input destination file name\n");
+
+  tmp = "Input destination file name\n";
+  PrintString(tmp);
   ReadString(destFileName, 255);
   
   openSourceId1 = Open(sourceFileName1);
@@ -40,7 +47,8 @@ main()
   openDestId = Open(destFileName);
 
   if (openSourceId1 == -1 || openSourceId2 == -1 || openDestId == -1) {
-    PrintString("Cannot open file(s), shutting down...\n");
+    tmp = "Cannot open file(s), shutting down...\n";
+    PrintString(tmp);
 
     if (openSourceId1 != -1) {
       Close(openSourceId1);
@@ -56,7 +64,11 @@ main()
     return;
   }
 
-  PrintString("Done concatenating, shutting down...\n");
+  moveContent(openSourceId1, openDestId);
+  moveContent(openSourceId2, openDestId);
+
+  tmp = "Done concatenating, shutting down...\n";
+  PrintString(tmp);
 
   Close(openSourceId1);
   Close(openSourceId2);
