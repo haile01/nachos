@@ -22,7 +22,7 @@ main()
   openSourceId = Open(sourceFileName);
   openDestId = Open(destFileName);
   if (openSourceId == -1 || openDestId == -1) {
-    PrintString("Cannot open file, shutting down...\n");
+    PrintString("Cannot open file(s), shutting down...\n");
 
     if (openSourceId != -1) {
       Close(openSourceId);
@@ -40,10 +40,6 @@ main()
     content[readSize] = (char)0;
     if (readSize > 0) {
       writeSize = Write(content, readSize, openDestId);
-      // PrintNum(readSize);
-      // PrintString(" ");
-      // PrintNum(writeSize);
-      // PrintString("\n");
     }
     if (readSize < READ_CHUNK_SIZE - 1) {
       break;

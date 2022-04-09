@@ -23,6 +23,8 @@ main()
     return;
   }
 
+  PrintString("\n===START OF FILE===\n");
+
   while(1) {
     readSize = Read(content, READ_CHUNK_SIZE - 1, openId);
     content[readSize] = (char)0;

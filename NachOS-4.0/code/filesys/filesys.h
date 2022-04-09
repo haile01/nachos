@@ -66,6 +66,15 @@ public:
 		int fileDescriptor = OpenForReadWrite(name, FALSE);
 		if (fileDescriptor == -1)
 			return -1;
+			
+		for (int i = 0; i < MAX_OPEN_FILES; i++) {
+			if (fileTable[i] == NULL || fileTable[i]->fileName == NULL) {
+				continue;
+			}
+			if (strcmp(name, fileTable[i]->fileName) == 0) {
+				return -1;
+			}
+		}
 
 		for (int i = 2;i<MAX_OPEN_FILES; i++)
 			if(fileTable[i]==NULL) {
