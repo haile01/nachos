@@ -6,15 +6,13 @@
 
 const int READ_CHUNK_SIZE = 256;
 
-int moveContent(int sourceId, int destId) {
+void moveContent(int sourceId, int destId) {
   char buffer[READ_CHUNK_SIZE];
   int readSize = 0;
-  int totalSize = 0;
 
   while(1) {
     readSize = Read(buffer, READ_CHUNK_SIZE - 1, sourceId);
     buffer[readSize] = (char)0;
-    totalSize = totalSize + readSize;
     if (readSize > 0) {
       Write(buffer, readSize, destId);
     }
@@ -22,8 +20,6 @@ int moveContent(int sourceId, int destId) {
       break;
     }
   }
-
-  return totalSize;
 }
 
 int
@@ -31,7 +27,6 @@ main()
 {
   char sourceFileName1[256], sourceFileName2[256], destFileName[256];
   int openSourceId1, openSourceId2, openDestId;
-  int size = 0;
 
   PrintString("Input 1st source file name\n");
   ReadString(sourceFileName1, 255);
@@ -60,13 +55,6 @@ main()
     Halt();
     return;
   }
-
-  size = size + moveContent(openSourceId1, openDestId);
-  size = size + moveContent(openSourceId2, openDestId);
-
-  PrintString("Written ");
-  PrintNum(size);
-  PrintString(" characters\n");
 
   PrintString("Done concatenating, shutting down...\n");
 
